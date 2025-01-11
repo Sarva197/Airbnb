@@ -1,47 +1,52 @@
 <% layout("/layouts/boilerplate") %>
-<!-- here row and col is used to place our form to occupy space of one row and 8 col, and offset is used to give space form left  -->
-    <div class="row">
-    <div class="col-8 offset-2">
-        <br>
+<!-- here row and col is used to place our form to occupy space of one row and 8 col, and offset is used to give space from left -->
+<div class="row">
+  <div class="col-8 offset-2">
+    <br>
     <h2>Add New Listing</h2>
     <form action="/listings" method="post" class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label for="title" class="form-lable">Title</label>
-            <input type="text" name="listings[title]" placeholder="enter title" class="form-control" >
-        </div>
-        <!--here we are making key object pair by like listing[title] . listing is the route on which we get post request-->
-        <div class="mb-3">
-            <label for="description" class="form-lable">Description</label>
-            <textarea type="text" name="listings[description]" class="form-control" required></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-lable">Image</label>
-            <input type="text" name="listings[image]" placeholder="enter url/paste link" class="form-control" required>
-        </div>
-        <div class="row">
-            <div class="mb-3 col-md-4">
-                <label for="price" class="form-lable">price</label>
-                <input type="number" name="listings[price]" placeholder="enter price" class="form-control" required>
-            </div>
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" name="listings[title]" placeholder="enter title" class="form-control" required>
+        <div class="invalid-feedback">Please provide a title.</div>
+      </div>
 
-            <div class="mb-3 col-md-8">
-                <label for="country" class="form-lable">country</label>
-                <!-- required is for making sure that user should definitely provide the data -->
-                 <!-- its is the part of form validation -->
-                <input type="text" name="listings[country]" placeholder="enter country" class="form-control"
-                 required>
-            </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="listings[description]" class="form-control" required></textarea>
+        <div class="invalid-feedback">Please provide a description.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="text" name="listings[image]" placeholder="enter URL/paste link" class="form-control" required>
+        <div class="invalid-feedback">Please provide an image URL.</div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-label">Price</label>
+          <input type="number" name="listings[price]" placeholder="enter price" class="form-control" required>
+          <div class="invalid-feedback">Please provide a price.</div>
         </div>
-        
-        <div class="mb-3">
-            <label for="location" class="form-lable">location</label>
-            <input type="text" name="listings[location]" placeholder="enter location" class="form-control" required>
+
+        <div class="mb-3 col-md-8">
+          <label for="country" class="form-label">Country</label>
+          <input type="text" name="listings[country]" placeholder="enter country" class="form-control" required>
+          <div class="invalid-feedback">Please provide a country.</div>
         </div>
-        
-        
-        <button type="submit" class="btn btn-dark">Create</button>
-        <br>
+      </div>
+
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" name="listings[location]" placeholder="enter location" class="form-control" required>
+        <div class="invalid-feedback">Please provide a location.</div>
+      </div>
+
+      <button type="submit" class="btn btn-dark">Create</button>
+      <br>
     </form>
     <br>
+  </div>
 </div>
-</div>
+
