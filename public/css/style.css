@@ -43,8 +43,7 @@ body {
     align-items: space-evenly;
 }
 
-.card {
-    border: none !important;
+.listing-card {
     margin-bottom: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
@@ -96,4 +95,10 @@ body {
 
 .show-card{
     padding: auto 0px auto 0px;
+}
+/* 
+review-card */
+
+.review-card{
+    
 }

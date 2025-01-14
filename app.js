@@ -8,8 +8,10 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema} = require("./schema.js");
+const {listingSchema , reviewSchema} = require("./schema.js");
 const { console } = require("inspector");
+const Review = require("./models/review.js");
+
 
 main().then(()=>{
     console.log("connected to Db");
@@ -57,16 +59,18 @@ app.get("/listings",wrapAsync(async (req,res)=>{
 app.get("/listings/new",(req,res)=>{
     res.render("listings/new")
 });
+
 //if we write /listings/new below /listings/:id we get error because /new will be treated as an :id therefore we've writtent it above
 app.get("/listings/:id",wrapAsync(async (req,res)=>{
     let {id} = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/show",{listing})
+    //here we are populating the listing document with review document so we can use them in show.ejs to show reviews
+    const listing = await Listing.findById(id).populate("review");
+    res.render("listings/show",{listing});
 }));
 
 //create route
 
-//joi validation middleware 
+//joi validation middleware  for listings 
 
 const validateListing = (req,res,next)=>{
     //joi server side schema validation 
@@ -74,6 +78,19 @@ const validateListing = (req,res,next)=>{
     
     if(error){
         console.log(error.details)
+        let err = error.details.map((el)=>el.message).join(",");
+        throw new ExpressError(400, err);
+    }else{
+        next();
+    }
+
+}
+
+const validateReview = (req,res,next)=>{
+    //joi server side schema validation 
+    const {error} = reviewSchema.validate(req.body);
+    
+    if(error){
         let err = error.details.map((el)=>el.message).join(",");
         throw new ExpressError(400, err);
     }else{
@@ -160,7 +177,19 @@ app.delete("/listings/:id",wrapAsync(async(req,res)=>{
     res.redirect("/listings");
 }));
 
-//error handling
+//below is revies route 
+
+app.post("/listings/:id/reviews", validateReview , wrapAsync( async(req,res,next)=>{
+    let {id} = req.params;
+    let listing = await Listing.findById(id);
+    const review = new Review(req.body.review);
+    listing.review.push(review);
+    await review.save();
+    await listing.save();
+    res.redirect(`/listings/${id}`);
+}));
+
+//error handling with error handling middleware
 
 app.all("*",(req,res,next) =>{
     next(new ExpressError(404,"page Not found"));
