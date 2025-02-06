@@ -24,6 +24,7 @@
     <div class="btns mb-4">
         <a href="/listings/<%=listing._id%>/edit" class="btn btn-primary mb-2 col-md-1 col-sm-2 offset-3">Edit</a>
         <form method="post" action="/listings/<%=listing._id%>?_method=DELETE" >
+            <input type="hidden" name="_method" value="DELETE">
             <button type="submit" class="btn btn-dark offset-5">Delete</button>
         </form>
     </div>
@@ -52,8 +53,11 @@
             <b><p class="card-title mb-2">User name</p></b>
             <p class="card-text"> <%= review.comment %> </p>
             <p class="card-text"> <%= review.rating %> </p>
-            <a href="#" class="card-link mt-2 btn btn-outline-danger text-sm-start">Delete</a>
           </div>
+          <form method="post" action="/listings/<%=listing._id%>/reviews/<%=review._id %>?_method=DELETE">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger mb-2">Delete</button>
+          </form>
         </div>
        <% } %>
       </div>

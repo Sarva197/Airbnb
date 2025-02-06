@@ -27,7 +27,7 @@ app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"/views"));
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
-app.use(methodOverride("_method"));
+app.use(methodOverride('_method'));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
@@ -110,7 +110,6 @@ const validateReview = (req,res,next)=>{
 //which hs an async function inside it which does the job of requiring the info sent by the client , processes it , and saves it 
 //onto our database
 
-
 app.post("/listings", validateListing , wrapAsync(async (req, res, next) => {
     const { listings } = req.body;
  
@@ -189,6 +188,23 @@ app.post("/listings/:id/reviews", validateReview , wrapAsync( async(req,res,next
     res.redirect(`/listings/${id}`);
 }));
 
+//deleting the review in perticular listing
+
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    console.log(`Deleting review ${reviewId} from listing ${id}`); // Debugging log
+
+    const listing = await Listing.findById(id);
+    if (!listing) {
+        console.log(`Listing with id ${id} not found`); // Debugging log
+        throw new ExpressError(404, "Listing not found");
+    }
+    await Listing.findByIdAndUpdate(id, { $pull: { review: reviewId } }); // Corrected field name
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/${id}`);
+}));
+
+
 //error handling with error handling middleware
 
 app.all("*",(req,res,next) =>{
@@ -200,7 +216,6 @@ app.use((err,req,res,next)=>{
     let {status = 500 , message = "something went wrong"} = err;
     res.status(status).render("error.ejs",{err});
 });
-
 
 
 app.listen(4000,()=>{
