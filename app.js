@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js");
 const path = require("path");
 const methodOverride = require("method-override");
  // Override with query string or header
@@ -10,8 +9,6 @@ const ExpressError = require("./utils/ExpressError.js");
 const { console } = require("inspector");
 const listings = require("./routes/listings.js");
 const reviews = require("./routes/review.js");
-
-
 
 main().then(()=>{
     console.log("connected to Db");
