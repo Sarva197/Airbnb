@@ -50,7 +50,7 @@ body {
 }
 
 .card-img-top {
-    border-radius: 1rem 1rem 0 0 !important;
+    /* border-radius: 1rem 1rem 0 0 !important; */
     width: 100% !important;
     height: 20rem;
     object-fit: cover !important;
