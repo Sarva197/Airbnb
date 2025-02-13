@@ -1,0 +1,27 @@
+<% layout("/layouts/boilerplate") %>
+<h1 class="offset-sm-3 offset-lg-4">Sign up</h1>
+<div class="row mt-4">
+    <div class="col-lg-4  col-sm-6 offset-lg-4 offset-sm-3">
+        <form action="/signup" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+                <div class="invalid-feedback">Please provide your Username.</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email"name="email" class="form-control" required>
+                <div class="invalid-feedback">Please provide your Email</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+            <div class="invalid-feedback">Please provide your password</div>
+            <div id="passwordHelpBlock" class="form-text">
+              Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+            </div>
+            </div>
+            <button class="btn btn-primary mt-3 mb-1">Sign Up</button>
+        </form>
+    </div>
+</div>

@@ -7,10 +7,14 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const { console } = require("inspector");
-const listings = require("./routes/listings.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listings.js");
+const reviewsRouter = require("./routes/review.js");
+const usersRouter = require("./routes/user.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStratergy = require("passport-local");
+const User = require("./models/user.js");
 
 main().then(()=>{
     console.log("connected to Db");
@@ -46,14 +50,27 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+//passport is used for authentication , its a library , pbkdf2 hashing algorithm is used in passport
+app.use(passport.initialize());
+app.use(passport.session()); 
+passport.use(new LocalStratergy(User.authenticate()));//Generates a function that is used in Passport's LocalStrategy
+
+
+
+passport.serializeUser(User.serializeUser());//Generates a function that is used by Passport to serialize users into the session
+passport.deserializeUser(User.deserializeUser());//Generates a function that is used by Passport to deserialize users into the
+
+
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next();
 });
 
-app.use("/listings",listings);
-app.use("/listings/:id/reviews",reviews);
+app.use("/listings",listingsRouter);
+app.use("/listings/:id/reviews",reviewsRouter);
+app.use("/",usersRouter);
+
 
 
 //error handling with error handling middleware
