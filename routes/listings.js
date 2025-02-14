@@ -4,6 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listing.js");
 const {listingSchema} = require("../schema.js");
+const {isLoggedIn} = require("../middleware.js");
 
 //joi validation middleware  for listings 
 const validateListing = (req,res,next)=>{
@@ -27,7 +28,7 @@ router.get("/",wrapAsync(async (req,res)=>{
 }));
 
 //create new route
-router.get("/new",(req,res)=>{
+router.get("/new",isLoggedIn ,(req,res)=>{
     res.render("listings/new")
 });
 
@@ -56,7 +57,8 @@ router.get("/:id",wrapAsync(async (req,res)=>{
 //which hs an async function inside it which does the job of requiring the info sent by the client , processes it , and saves it 
 //onto our database
 
-router.post("/", validateListing , wrapAsync(async (req, res, next) => {
+//create route
+router.post("/",isLoggedIn , validateListing , wrapAsync(async (req, res, next) => {
     const { listings } = req.body;
  
    
@@ -79,7 +81,7 @@ router.post("/", validateListing , wrapAsync(async (req, res, next) => {
 }));
 
 //edit route
-router.get("/:id/edit",wrapAsync(async(req,res)=>{
+router.get("/:id/edit",isLoggedIn,wrapAsync(async(req,res)=>{
     let {id} = req.params;
     const listing = await Listing.findById(id);
     if(!listing){
@@ -99,7 +101,7 @@ router.get("/:id/edit",wrapAsync(async(req,res)=>{
 // To fix this, you need to ensure the image field is correctly structured as an object when saving the new listing.
 
 //below put request has three arguments , 1st is route ,2nd is the middlware function and third is the our normal wrapAsync funtion 
-router.put("/:id",validateListing, wrapAsync(async (req, res) => {
+router.put("/:id",isLoggedIn ,validateListing, wrapAsync(async (req, res) => {
     const { id } = req.params;
     const updates = req.body.listings;
 
@@ -120,7 +122,7 @@ router.put("/:id",validateListing, wrapAsync(async (req, res) => {
     res.redirect(`/listings/${id}`);
 }));
 
-router.delete("/:id",wrapAsync(async(req,res)=>{
+router.delete("/:id",isLoggedIn ,wrapAsync(async(req,res)=>{
     let {id} = req.params;
     req.flash("success","The listing has been deleted");
     await Listing.findByIdAndDelete(id);

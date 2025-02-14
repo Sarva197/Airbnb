@@ -1,4 +1,3 @@
-const { required } = require('joi');
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
 
@@ -12,6 +11,6 @@ const userSchema = Schema({
     }
 });
 
-userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(passportLocalMongoose,{limitAttempts: true, maxAttempts: 2, unlockInterval: 2000});
 
 module.exports = mongoose.model('User', userSchema);
