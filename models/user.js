@@ -11,6 +11,6 @@ const userSchema = Schema({
     }
 });
 
-userSchema.plugin(passportLocalMongoose,{limitAttempts: true, maxAttempts: 2, unlockInterval: 2000});
+userSchema.plugin(passportLocalMongoose,{limitAttempts: true, maxAttempts: 2, unlockInterval: 20000});
 
 module.exports = mongoose.model('User', userSchema);

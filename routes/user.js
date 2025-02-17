@@ -3,7 +3,10 @@ const router =  express.Router();
 const User = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
+const { saveRedirectUrl } = require("../middleware.js");
 
+
+//signup route
 router.get("/signup",(req,res)=>{
     res.render("./users/signup.ejs")
 });
@@ -13,14 +16,20 @@ router.post("/signup", wrapAsync( async (req,res)=>{
     let {username , email , password} = req.body;
     const newUser = new User({email , username});
     let registerUser = await User.register(newUser , password);// here register hashes the password and saves user into database , thats why we dont need to separatelly save user into db, its a middleware (passport-local-mongoose)
-    req.flash("success", `Welcome ${username}`);
-    res.redirect("/listings");
+    req.login(registerUser,(err)=>{
+      if(err){
+        return next(err);
+      } 
+      req.flash("success", `Welcome ${username}`);
+      return res.redirect(req.session.redirectUrl || "/listings");
+    });
    } catch (error) {
     req.flash("error", error.message)
-    res.redirect("/signup");
+    res.redirect("/user/signup");
    }
 }));
 
+//login route
 router.get("/login",(req,res)=>{
     res.render("./users/login.ejs")
 });
@@ -32,7 +41,8 @@ router.get("/login",(req,res)=>{
 //     res.redirect("/listings");
 // });
 
-router.post("/login", (req, res, next) => {
+//see middleware.js for the explanation of the below code
+router.post("/login",saveRedirectUrl, (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) return next(err); // Handle internal server errors
   
@@ -47,14 +57,16 @@ router.post("/login", (req, res, next) => {
         return res.redirect("/user/login");
       }
   
-      req.logIn(user, (err) => {
+      req.logIn(user, async (err) => {
         if (err) return next(err);
+        await user.resetAttempts();
         req.flash("success", `Welcome to WanderLust, ${user.username}!`);
-        return res.redirect("/listings");
+        return res.redirect(res.locals.redirectUrl || "/listings");
       });
     })(req, res, next);
   });
 
+  //forget password route
   router.get("/forgetPassword", (req,res)=>{
     res.render("./users/changepassword.ejs")
   });
@@ -87,5 +99,15 @@ router.post("/login", (req, res, next) => {
     }
   }));
   
+  //logout
+  router.get("/logout",(req,res,next)=>{
+    req.logout((err)=>{
+      if(err){
+        return next(err);
+      }
+    });
+    req.flash("success", "Goodbye!");
+    res.redirect("/listings");
+  });
 
 module.exports = router;

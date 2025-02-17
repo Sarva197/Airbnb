@@ -96,9 +96,7 @@ body {
 .show-card{
     padding: auto 0px auto 0px;
 }
-/* 
-review-card */
 
-.review-card{
-    
+.text-left {
+    text-align: left;
 }

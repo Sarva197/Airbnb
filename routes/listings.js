@@ -37,7 +37,7 @@ router.get("/new",isLoggedIn ,(req,res)=>{
 router.get("/:id",wrapAsync(async (req,res)=>{
     let {id} = req.params;
     //here we are populating the listing document with review document so we can use them in show.ejs to show reviews
-    const listing = await Listing.findById(id).populate("review");
+    const listing = await Listing.findById(id).populate("review").populate("owner");
     if(!listing){
         req.flash("error","The hotel you are trying to access dosent exist");
         res.redirect("/listings");
@@ -60,8 +60,8 @@ router.get("/:id",wrapAsync(async (req,res)=>{
 //create route
 router.post("/",isLoggedIn , validateListing , wrapAsync(async (req, res, next) => {
     const { listings } = req.body;
- 
-   
+    console.log(req.body.listings);
+
     // Create the image object
     const image = {
         url: listings.image,       // Assuming the form provides the URL as a string
@@ -75,7 +75,10 @@ router.post("/",isLoggedIn , validateListing , wrapAsync(async (req, res, next) 
         image
     });
 
+    //saving the owner id who created the listing
+    newListing.owner = req.user._id;
     await newListing.save();
+    console.log(newListing);
     req.flash("success","New listing created");
     res.redirect("/listings");
 }));
