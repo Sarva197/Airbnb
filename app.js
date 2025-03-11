@@ -1,3 +1,6 @@
+if(process.env.NODE_ENV !== "production"){
+    require('dotenv').config()
+}
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -10,11 +13,13 @@ const { console } = require("inspector");
 const listingsRouter = require("./routes/listings.js");
 const reviewsRouter = require("./routes/review.js");
 const usersRouter = require("./routes/user.js");
+const searchRouter = require("./routes/search.js");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStratergy = require("passport-local");
 const User = require("./models/user.js");
+
 
 main().then(()=>{
     console.log("connected to Db");
@@ -61,6 +66,7 @@ passport.serializeUser(User.serializeUser());//Generates a function that is used
 passport.deserializeUser(User.deserializeUser());//Generates a function that is used by Passport to deserialize users into the
 
 
+
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
@@ -71,6 +77,9 @@ app.use((req,res,next)=>{
 app.use("/listings",listingsRouter);
 app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/user",usersRouter);
+app.use("/user",usersRouter);
+app.use("/search",searchRouter);
+
 
 
 
@@ -89,4 +98,4 @@ app.use((err,req,res,next)=>{
 
 app.listen(3000,()=>{
     console.log("server is on");
-});
+})

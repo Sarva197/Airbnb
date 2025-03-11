@@ -8,6 +8,12 @@ const userSchema = Schema({
     email :{
         type : String,
         required : true
+    },
+    resetOTP: {
+        type: String, // Store OTP
+    },
+    otpExpiry: {
+        type: Date, // Store expiry time
     }
 });
 

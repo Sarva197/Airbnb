@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 <body>
-    <form method="post" action="/listings/<%=listing._id %>?_method=PUT">
+    <form method="post" action="/listings/<%=listing._id %>?_method=PUT" enctype="multipart/form-data">
         <!--here we are making key object pair by like listing[title] . listing is the route on which we get post request-->
         <div class="row">
         <div class="col-7 offset-2"> 
@@ -12,9 +12,13 @@
                 <label for="description" class="form-lable">Description</label>
                 <textarea type="text" name="listings[description]" class="form-control"><%=listing.description %></textarea>
             </div>
+            <div class="mb-3">
+                original image <br>
+                <img src="<%= originalUrl %>" alt="" style="width: 10rem; height: 100px;">
+            </div>
         <div class="mb-3">
             <label for="image" class="form-lable">Image</label>
-            <input type="text" name="listings[image]"value="<%=listing.image.url %>" class="form-control">
+            <input type="file" name="listings[image]" class="form-control">
         </div>
         <div class="row">
             <div class="mb-3 col-md-4">
