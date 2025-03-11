@@ -36,7 +36,7 @@ async function main () {
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"/views"));
 app.use(express.urlencoded({extended : true}));
-app.use(express.json());
+app.use(express.json()); 
 app.use(methodOverride('_method'));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
@@ -50,7 +50,7 @@ const store = MongoStore.create({
 });
 
 const sessionOptions = {
-    store,
+    store:store,
     secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
@@ -89,6 +89,7 @@ app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/user",usersRouter);
 app.use("/user",usersRouter);
 app.use("/search",searchRouter);
+app.use("/",homeport);
 
 
 
