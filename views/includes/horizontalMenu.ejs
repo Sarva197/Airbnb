@@ -1,0 +1,171 @@
+<div class="features">
+    <div id="filters" class="mt-1">
+        <button id="left-btn"><i class="fa-solid fa-arrow-left"></i></button>
+        <div class="hotel-list">
+            <div class="filter">
+                <div><i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-bed"></i></div>
+                <p>Rooms</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-mountain-sun"></i></div>
+                <p>Best Views</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-water"></i></div>
+                <p>Amazing pools</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-caravan"></i></div>
+                <p>Cabins</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-umbrella-beach"></i></div>
+                <p>Beach</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-regular fa-building"></i></div>
+                <p>Iconic cities</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-tents"></i></div>
+                <p>Camping</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-ferry"></i></div>
+                <p>Boat</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-bed"></i></div>
+                <p>Rooms</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-mountain-sun"></i></div>
+                <p>Best Views</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-water"></i></div>
+                <p>Amazing pools</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-caravan"></i></div>
+                <p>Cabins</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-umbrella-beach"></i></div>
+                <p>Beach</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-regular fa-building"></i></div>
+                <p>Iconic cities</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-tents"></i></div>
+                <p>Camping</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-ferry"></i></div>
+                <p>Boat</p>
+            </div>
+        </div>
+        <button id="right-btn"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+    <div class="form-check-reverse form-switch toggle-tax">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Display before taxes</label>
+    </div>
+</div>
+
+<style>
+    #filters{
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+overflow: hidden;
+width: 70%;
+}
+
+.features{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    margin-right: 1rem;
+    cursor: pointer;
+    opacity: 0.7;
+    height: 3rem;
+    width: fit-content;
+    padding: 10px;
+    font-size: small;
+}
+
+.filter:hover{
+    opacity: 1;
+    border-bottom: 2px solid black;
+}
+
+button {
+height: fit-content;
+width: fit-content;
+cursor: pointer;
+border: none;
+background: white;
+padding: 10px;
+border-radius: 50px;
+border: 2px solid black;
+opacity: 0.6;
+font-size: small;
+}
+
+button:hover{
+opacity: 1;
+}
+
+.hotel-list {
+display: flex;
+overflow-x: hidden;
+scroll-behavior: smooth;
+white-space: nowrap;
+width: 100%; 
+padding: 10px;
+}
+
+.hotel-list::-webkit-scrollbar {
+display: none;
+}
+
+.after-tax{
+display: none;
+}
+
+.toggle-tax{
+height: 2.8rem;
+width: 14rem;
+border: 1px solid black;
+display: flex;
+align-items: center;
+justify-content: space-around;
+flex-direction: row-reverse;
+padding: 1rem;
+margin-top: 3px;
+border-radius: 1rem;
+opacity: 0.7;
+}
+
+</style>

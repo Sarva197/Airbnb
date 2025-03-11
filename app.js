@@ -15,11 +15,13 @@ const reviewsRouter = require("./routes/review.js");
 const usersRouter = require("./routes/user.js");
 const searchRouter = require("./routes/search.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStratergy = require("passport-local");
 const User = require("./models/user.js");
 
+const dburl = process.env.ATLASDBURL;
 
 main().then(()=>{
     console.log("connected to Db");
@@ -28,7 +30,7 @@ main().then(()=>{
 });
 
 async function main () {
-    await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust")
+    await mongoose.connect(dburl)
 }
 
 app.set("view engine","ejs");
@@ -39,9 +41,17 @@ app.use(methodOverride('_method'));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
+const store = MongoStore.create({
+    mongoUrl: dburl,
+    crypto:{
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24*3600,
+});
 
 const sessionOptions = {
-    secret : "%jjah(&())",
+    store,
+    secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
     cookie: {
