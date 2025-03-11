@@ -14,6 +14,7 @@ const listingsRouter = require("./routes/listings.js");
 const reviewsRouter = require("./routes/review.js");
 const usersRouter = require("./routes/user.js");
 const searchRouter = require("./routes/search.js");
+const homeRouter = require("./routes/home.js");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
@@ -89,7 +90,7 @@ app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/user",usersRouter);
 app.use("/user",usersRouter);
 app.use("/search",searchRouter);
-app.use("/",homeport);
+app.use("/",homeRouter);
 
 
 
