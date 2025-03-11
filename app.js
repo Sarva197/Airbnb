@@ -106,7 +106,7 @@ app.use((err,req,res,next)=>{
     res.status(status).render("error.ejs",{err});
 });
 
-
-app.listen(3000,()=>{
-    console.log("server is on");
-})
+const PORT = process.env.PORT || 3000; 
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
