@@ -6,3 +6,5 @@ const { index} = require("../controllers/home.js");
 
 router.route("/")
 .get(wrapAsync(index));
+
+module.exports = router;

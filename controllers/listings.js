@@ -32,30 +32,33 @@ module.exports.showListing = async (req,res)=>{
 //below post request has three arguments , 1st is route ,2nd is the middlware function and third is the our normal wrapAsync funtion 
 //which hs an async function inside it which does the job of requiring the info sent by the client , processes it , and saves it 
 //onto our database
+
 module.exports.createListing = async (req, res, next) => {
-    const { listings } = req.body;
-    const { path : url , filename } = req.file;
+    try {
+        const { listings } = req.body;
+        const { path: url, filename } = req.file;
 
-    // Create the image object
-    const image = {
-        url: url,       // Assuming the form provides the URL as a string
-        filename: filename              // Set a placeholder or generate a filename if needed
-    };
+        // Create the image object
+        const image = {
+            url: url,       // Assuming the form provides the URL as a string
+            filename: filename              // Set a placeholder or generate a filename if needed
+        };
 
-    // Create a new listing with the image object
-    
-    const newListing = new Listing({
-        ...listings,
-        image
-    });
+        // Create a new listing with the image object
+        const newListing = new Listing({
+            ...listings,
+            image
+        });
 
-    //saving the owner id who created the listing
-    newListing.owner = req.user._id;
-    await newListing.save();
-    req.flash("success","New listing created");
-    res.redirect("/listings");
+        // Saving the owner id who created the listing
+        newListing.owner = req.user._id;
+        await newListing.save();
+        req.flash("success", "New listing created");
+        res.redirect("/listings");
+    } catch (error) {
+        next(error);
+    }
 };
-
 module.exports.showEditPage = async(req,res)=>{
     let {id} = req.params;
     const listing = await Listing.findById(id);
